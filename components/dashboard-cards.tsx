@@ -3,6 +3,7 @@ import createDB from "@/db";
 import { desc, eq } from "drizzle-orm";
 import { questions } from "@/db/migrations/schema";
 import DashboardAnswerCard from "@/components/dashboard-answer-card"; // client
+import { avatars } from "@/lib/avatars";
 
 export const runtime = "edge";
 

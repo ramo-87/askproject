@@ -5,8 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Twitter } from "lucide-react";
+
 import { clsx } from "clsx";
 import Image from "next/image";
+
+interface BlueskyApiResponse {
+  success: boolean;
+  data?: unknown;
+  error?: string;
+}
 
 type Props = {
   id: number;
@@ -44,9 +51,21 @@ export default function DashboardAnswerCard({
 
   const tweetText = `Q: ${truncatedQuestion}\n\nA: ${truncatedAnswer}`;
 
-  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-    tweetText + "\n " + "https://ask.omaryahya.net"
-  )}`;
+  async function handlePostToBluesky() {
+    const text = `Q: ${truncatedQuestion}\n\nA: ${truncatedAnswer}`;
+    try {
+      const res = await fetch("/api/postToBluesky", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, questionId: id }),
+      });
+      const data = (await res.json()) as { success: boolean };
+      if (data.success) toast.success("Posted to Bluesky!");
+      else toast.error("Failed to post to Bluesky");
+    } catch {
+      toast.error("Failed to post to Bluesky");
+    }
+  }
 
   const handleSubmit = () => {
     startTransition(async () => {
@@ -113,14 +132,10 @@ export default function DashboardAnswerCard({
                   {answerText}
                 </p>
               </div>
-              <a
-                href={twitterUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-blue-500 hover:underline text-sm"
-              >
+              <Button onClick={handlePostToBluesky}>
                 <Twitter className="h-4 w-4" />
-              </a>
+                Post to Bluesky
+              </Button>
             </div>
           )}
         </div>

@@ -6,6 +6,7 @@ import Cards from "@/components/cards";
 import { generateRandomName } from "@/lib/names";
 import QuestionForm from "@/components/questionform";
 import z from "zod";
+import { avatars } from "@/lib/avatars";
 
 export const runtime = "edge";
 
@@ -31,11 +32,13 @@ export default function Home() {
 
     const askerName = generateRandomName();
     const isAnswered = false;
+    const avatar = avatars[Math.floor(Math.random() * avatars.length)];
 
     await drizzle.insert(questions).values({
       questionText: result.data,
       askerName,
       isAnswered,
+      askerAvatar: `${avatar}`,
     });
 
     return { success: true };

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Askinator",
+  title: "AMA",
   description: "backend bro does frontend stuff kind of project",
   twitter: {
     card: "summary",
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://ask.omaryahya.net",
-    title: "Askinator",
+    title: "AMA",
     description: "Ask me anonymous questions",
-    siteName: "Askinator",
+    siteName: "https://omaryahya.net",
     images: [{ url: "https://ask.omaryahya.net/og.png" }],
   },
 };
